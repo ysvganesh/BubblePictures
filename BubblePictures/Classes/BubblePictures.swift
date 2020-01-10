@@ -176,6 +176,9 @@ extension BubblePictures: UICollectionViewDataSource {
         cell.configure(configFile: configFilesTruncated[indexPath.item], layoutConfigurator: layoutConfigurator, isTruncatedCell: isTruncatedCell)
         cell.layer.zPosition = CGFloat(indexPath.item)
         
+        //Center alignment for last cell
+        if !isTruncatedCell && indexPath.item == configFilesTruncated.count - 1 { cell.lblNameCenterXConstraint.constant = 0 }
+        
         if layoutConfigurator.direction == .rightToLeft {
             cell.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         } else {
