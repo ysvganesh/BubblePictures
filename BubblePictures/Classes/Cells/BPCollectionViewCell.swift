@@ -40,20 +40,15 @@ final class BPCollectionViewCell: UICollectionViewCell {
         
         configureImage(imageType: configFile.imageType, title: configFile.title, layoutConfigurator: layoutConfigurator)
         configureTitle(fullTitle: configFile.title, maxLenght: layoutConfigurator.maxCharactersForBubbleTitles, isTruncatedCell: isTruncatedCell)
-        configureLayout(layoutConfigurator: layoutConfigurator)
+        configureLayout(layoutConfigurator: layoutConfigurator, isTruncatedCell: isTruncatedCell)
         
         viewWhiteBorders.layer.borderWidth = layoutConfigurator.widthForBubbleBorders
         viewBackgroundWidthConstraint.constant = layoutConfigurator.widthForBubbleBorders * -2
-        var nameCenterXConstant: CGFloat = -4
-        if isTruncatedCell {
-            switch layoutConfigurator.displayForTruncatedCell {
-            case .none, .some(.number):
-                nameCenterXConstant = -2
-            case .some(.image), .some(.text):
-                nameCenterXConstant = 0
-            }
-        }
-        lblNameCenterXConstraint.constant = nameCenterXConstant
+        
+        let offestX = isTruncatedCell ? layoutConfigurator.truncatedBubbleTitleCenterOffset : layoutConfigurator.bubbleTitleCenterOffset
+        lblNameCenterXConstraint.constant = offestX
+      
+        self.clipsToBounds = !isTruncatedCell
     }
     
     private func configureImage(imageType: BPImageType, title: String, layoutConfigurator: BPLayoutConfigurator) {
@@ -71,10 +66,10 @@ final class BPCollectionViewCell: UICollectionViewCell {
         imgBackground.contentMode = layoutConfigurator.bubbleImageContentMode
     }
     
-    private func configureLayout(layoutConfigurator: BPLayoutConfigurator) {
+    private func configureLayout(layoutConfigurator: BPLayoutConfigurator, isTruncatedCell: Bool) {
         viewWhiteBorders.layer.borderColor = layoutConfigurator.colorForBubbleBorders.cgColor
-        lblName.font = layoutConfigurator.fontForBubbleTitles
-        lblName.textColor = layoutConfigurator.colorForBubbleTitles
+        lblName.font = isTruncatedCell ? layoutConfigurator.fontForTruncatedBubbleTitle : layoutConfigurator.fontForBubbleTitles
+        lblName.textColor = isTruncatedCell ? layoutConfigurator.colorForTruncatedBubbleTitles : layoutConfigurator.colorForBubbleTitles
     }
     
     private func configureTitle(fullTitle: String, maxLenght: Int, isTruncatedCell: Bool) {

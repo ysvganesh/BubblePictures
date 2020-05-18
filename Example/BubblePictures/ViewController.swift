@@ -16,15 +16,24 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+      view.backgroundColor = UIColor(red: 18.0 / 255.0, green: 18.0 / 255.0, blue: 18.0 / 255.0, alpha: 1.0)
+      collectionView.backgroundColor = .clear
+      
         let configFiles = getConfigFiles()
         let layoutConfigurator = BPLayoutConfigurator(
-            backgroundColorForTruncatedBubble: UIColor.gray,
-            fontForBubbleTitles: UIFont(name: "HelveticaNeue-Light", size: 16.0)!,
+            backgroundColorForTruncatedBubble: UIColor.clear,
+            fontForBubbleTitles: UIFont(name: "HelveticaNeue-Medium", size: 12.0)!,
+            fontForTruncatedBubbleTitle: UIFont(name: "HelveticaNeue-Medium", size: 20.0)!,
             colorForBubbleBorders: UIColor.white,
             colorForBubbleTitles: UIColor.white,
+            colorForTruncatedBubbleTitles: .red,
             maxCharactersForBubbleTitles: 2,
             maxNumberOfBubbles: 2,
-            displayForTruncatedCell: BPTruncatedCellDisplay.number(4),
+            displayForTruncatedCell: BPTruncatedCellDisplay.number(400),
+            widthForBubbleBorders: 0,
+            distanceInterBubbles: 10,
+            bubbleTitleCenterOffset: 0,
+            truncatedBubbleTitleCenterOffset: 20,
             direction: .leftToRight,
             alignment: .center)
         
